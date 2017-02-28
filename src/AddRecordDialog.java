@@ -105,17 +105,29 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		return empDetails;
 	}
 
-	// add record to file
-	public void addRecord() {
+	// this method is to parse all the JTextField in order to create Employee Class
+	public Employee createEmployee()
+	{
 		boolean fullTime = false;
-		Employee theEmployee;
 
 		if (((String) fullTimeCombo.getSelectedItem()).equalsIgnoreCase("Yes"))
 			fullTime = true;
-		// create new Employee record with details from text fields
-		theEmployee = new Employee(Integer.parseInt(idField.getText()), ppsField.getText().toUpperCase(), surnameField.getText().toUpperCase(),
-				firstNameField.getText().toUpperCase(), genderCombo.getSelectedItem().toString().charAt(0),
-				departmentCombo.getSelectedItem().toString(), Double.parseDouble(salaryField.getText()), fullTime);
+
+		int id = Integer.parseInt(idField.getText());
+		String ppsNumber = ppsField.getText().toUpperCase();
+		String surname = surnameField.getText().toUpperCase();
+		String firstName = firstNameField.getText().toUpperCase();
+		char gender = genderCombo.getSelectedItem().toString().charAt(0);
+		String department = departmentCombo.getSelectedItem().toString();
+		double salary = Double.parseDouble(salaryField.getText());
+		boolean isFullTime = fullTime;
+
+		return new Employee(id, ppsNumber, surname, firstName, gender, department, salary, isFullTime);
+	}
+	// add record to file
+	public void addRecord() {
+
+		Employee theEmployee = createEmployee();
 		this.parent.currentEmployee = theEmployee;
 		this.parent.addRecord(theEmployee);
 		this.parent.displayRecords(theEmployee);
