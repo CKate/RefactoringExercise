@@ -187,13 +187,13 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 				.getScaledInstance(17, 17, java.awt.Image.SCALE_SMOOTH))));
 		previous.setPreferredSize(new Dimension(17, 17));
 		previous.addActionListener(this);
-		previous.setToolTipText("Display next Record");
+		previous.setToolTipText("Display previous Record");
 
 		navigPanel.add(next = new JButton(new ImageIcon(
 				new ImageIcon("next.png").getImage().getScaledInstance(17, 17, java.awt.Image.SCALE_SMOOTH))));
 		next.setPreferredSize(new Dimension(17, 17));
 		next.addActionListener(this);
-		next.setToolTipText("Display previous Record");
+		next.setToolTipText("Display next Record");
 
 		navigPanel.add(last = new JButton(new ImageIcon(
 				new ImageIcon("last.png").getImage().getScaledInstance(17, 17, java.awt.Image.SCALE_SMOOTH))));
