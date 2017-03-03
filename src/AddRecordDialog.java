@@ -23,11 +23,11 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 public class AddRecordDialog extends JDialog implements ActionListener {
-	JTextField idField, ppsField, surnameField, firstNameField, salaryField;
-	JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
-	JButton save, cancel;
-	EmployeeDetails parent;
-	// constructor for add record dialog
+	private JTextField idField, ppsField, surnameField, firstNameField, salaryField;
+	private JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
+	private JButton save, cancel;
+	private EmployeeDetails parent;
+
 	public AddRecordDialog(EmployeeDetails parent) {
 		setTitle("Add Record");
 		setModal(true);
@@ -43,7 +43,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		setSize(500, 370);
 		setLocation(350, 250);
 		setVisible(true);
-	}// end AddRecordDialog
+	}
 
 	// initialize dialog container
 	public Container dialogPane() {
@@ -92,20 +92,20 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 			empDetails.getComponent(i).setFont(this.parent.font1);
 			if (empDetails.getComponent(i) instanceof JComboBox) {
 				empDetails.getComponent(i).setBackground(Color.WHITE);
-			}// end if
+			}
 			else if(empDetails.getComponent(i) instanceof JTextField){
 				field = (JTextField) empDetails.getComponent(i);
 				if(field == ppsField)
 					field.setDocument(new JTextFieldLimit(9));
 				else
-				field.setDocument(new JTextFieldLimit(20));
-			}// end else if
-		}// end for
+					field.setDocument(new JTextFieldLimit(20));
+			}
+		}
 		idField.setText(Integer.toString(this.parent.getNextFreeId()));
 		return empDetails;
 	}
 
-	// this method is to parse all the JTextField in order to create Employee Class
+	// This method is to parse all the JTextField in order to create Employee Class
 	public Employee createEmployee()
 	{
 		boolean fullTime = false;
@@ -124,6 +124,7 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 
 		return new Employee(id, ppsNumber, surname, firstName, gender, department, salary, isFullTime);
 	}
+
 	// add record to file
 	public void addRecord() {
 
@@ -136,78 +137,70 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	// check for input in text fields
 	public boolean checkInput() {
 		boolean valid = true;
-		// if any of inputs are in wrong format, colour text field and display message
 		if (ppsField.getText().equals("")) {
-			ppsField.setBackground(new Color(255, 150, 150));
+			ppsField.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		if (this.parent.correctPps(this.ppsField.getText().trim(), -1)) {
-			ppsField.setBackground(new Color(255, 150, 150));
+			ppsField.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		if (surnameField.getText().isEmpty()) {
-			surnameField.setBackground(new Color(255, 150, 150));
+			surnameField.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		if (firstNameField.getText().isEmpty()) {
-			firstNameField.setBackground(new Color(255, 150, 150));
+			firstNameField.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		if (genderCombo.getSelectedIndex() == 0) {
-			genderCombo.setBackground(new Color(255, 150, 150));
+			genderCombo.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		if (departmentCombo.getSelectedIndex() == 0) {
-			departmentCombo.setBackground(new Color(255, 150, 150));
+			departmentCombo.setBackground(parent.red);
 			valid = false;
-		}// end if
-		try {// try to get values from text field
+		}
+		try {
 			Double.parseDouble(salaryField.getText());
-			// check if salary is greater than 0
 			if (Double.parseDouble(salaryField.getText()) < 0) {
-				salaryField.setBackground(new Color(255, 150, 150));
+				salaryField.setBackground(parent.red);
 				valid = false;
-			}// end if
-		}// end try
-		catch (NumberFormatException num) {
-			salaryField.setBackground(new Color(255, 150, 150));
+			}
+		} catch (NumberFormatException num) {
+			salaryField.setBackground(parent.red);
 			valid = false;
-		}// end catch
+		}
 		if (fullTimeCombo.getSelectedIndex() == 0) {
-			fullTimeCombo.setBackground(new Color(255, 150, 150));
+			fullTimeCombo.setBackground(parent.red);
 			valid = false;
-		}// end if
+		}
 		return valid;
-	}// end checkInput
+	}
 
-	// set text field to white colour
 	public void setToWhite() {
-		ppsField.setBackground(Color.WHITE);
-		surnameField.setBackground(Color.WHITE);
-		firstNameField.setBackground(Color.WHITE);
-		salaryField.setBackground(Color.WHITE);
-		genderCombo.setBackground(Color.WHITE);
-		departmentCombo.setBackground(Color.WHITE);
-		fullTimeCombo.setBackground(Color.WHITE);
-	}// end setToWhite
+		ppsField.setBackground(parent.white);
+		surnameField.setBackground(parent.white);
+		firstNameField.setBackground(parent.white);
+		salaryField.setBackground(parent.white);
+		genderCombo.setBackground(parent.white);
+		departmentCombo.setBackground(parent.white);
+		fullTimeCombo.setBackground(parent.white);
+	}
 
-	// action performed
 	public void actionPerformed(ActionEvent e) {
-		// if chosen option save, save record to file
 		if (e.getSource() == save) {
-			// if inputs correct, save record
 			if (checkInput()) {
-				addRecord();// add record to file
-				dispose();// dispose dialog
+				addRecord();
+				dispose();
 				this.parent.changesMade = true;
-			}// end if
-			// else display message and set text fields to white colour
+			}
 			else {
 				JOptionPane.showMessageDialog(null, "Wrong values or format! Please check!");
 				setToWhite();
-			}// end else
-		}// end if
+			}
+		}
 		else if (e.getSource() == cancel)
-			dispose();// dispose dialog
-	}// end actionPerformed
-}// end class AddRecordDialog
+			dispose();
+	}
+}
