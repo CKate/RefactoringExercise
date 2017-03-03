@@ -3,7 +3,6 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerAdapter;
 
 /**
  * Created by pochi_000 on 01/03/2017.
@@ -12,12 +11,17 @@ public abstract class AbstractSearchDialog extends JDialog implements ActionList
     EmployeeDetails parent;
     JButton search, cancel;
     JTextField searchField;
-    String searchBy, enterSearchLabel;
+    private String searchBy, enterSearchLabel;
+    private SearchNavPanelBuilder searchNavPanelBuilder;
 
-    public AbstractSearchDialog(EmployeeDetails parent)
+    public AbstractSearchDialog(EmployeeDetails parent, SearchNavPanelBuilder searchNavPanelBuilder, String searchBy, String enterSearchLabel, String titleDialog)
     {
         setModal(true);
         this.parent = parent;
+        this.searchNavPanelBuilder = searchNavPanelBuilder;
+        this.searchBy = searchBy;
+        this.enterSearchLabel = enterSearchLabel;
+        this.setTitle(titleDialog);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JScrollPane scrollPane = new JScrollPane(searchPane());
@@ -64,19 +68,25 @@ public abstract class AbstractSearchDialog extends JDialog implements ActionList
 
     }
 
-    public String getSearchBy() {
-        return searchBy;
+    @Override
+    public EmployeeDetails getParent() {
+        return parent;
     }
 
-    public void setSearchBy(String searchBy) {
-        this.searchBy = searchBy;
+    public JButton getSearch() {
+        return search;
     }
 
-    public String getEnterSearchLabel() {
-        return enterSearchLabel;
+    public JButton getCancel() {
+        return cancel;
     }
 
-    public void setEnterSearchLabel(String enterSearchLabel) {
-        this.enterSearchLabel = enterSearchLabel;
+    public JTextField getSearchField() {
+        return searchField;
     }
+
+    public SearchNavPanelBuilder getSearchNavPanelBuilder() {
+        return searchNavPanelBuilder;
+    }
+
 }
